@@ -53,8 +53,11 @@
 #include <chrono> 
 #include <ctime>
 #include <tuple>
-#include "Sys.hh"
+
+// Astra-Sim:
 #include "AstraNetworkAPI.hh"
+#include "Sys.hh"
+
 #define CLK_PERIOD 1
 class MessageBuffer;
 class flitBuffer;
