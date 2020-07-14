@@ -1112,7 +1112,7 @@ int NetworkInterface::sim_finish(){
 double NetworkInterface::sim_time_resolution(){
     return -1;
 }
-int NetworkInterface::sim_init(MemoryAPI* MEM){
+int NetworkInterface::sim_init(AstraMemoryAPI* MEM){
     return -1;
 }
 timespec_t NetworkInterface::sim_get_time(){

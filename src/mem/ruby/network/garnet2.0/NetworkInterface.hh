@@ -54,13 +54,14 @@
 #include <ctime>
 #include <tuple>
 #include "Sys.hh"
-#include "CommunicationAPI.hh"
+#include "AstraNetworkAPI.hh"
 #define CLK_PERIOD 1
 class MessageBuffer;
 class flitBuffer;
 class Sys;
 
-class NetworkInterface : public ClockedObject, public Consumer,public CommunicationAPI
+class NetworkInterface : public ClockedObject, public Consumer,
+                         public AstraNetworkAPI
 {
   public:
     typedef GarnetNetworkInterfaceParams Params;
@@ -89,7 +90,7 @@ class NetworkInterface : public ClockedObject, public Consumer,public Communicat
     int sim_comm_set_rank(sim_comm comm, int rank);
     int sim_finish();
     double sim_time_resolution();
-    int sim_init(MemoryAPI* MEM);
+    int sim_init(AstraMemoryAPI* MEM);
     timespec_t sim_get_time();
     void sim_schedule(timespec_t delta, void (*fun_ptr)(void *fun_arg), void *fun_arg);
     int sim_send(void *buffer, int count, int type, int dst, int tag, sim_request *request, void (*msg_handler)(void *fun_arg), void* fun_arg);
