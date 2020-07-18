@@ -53,7 +53,7 @@ std::map<int,std::map<int,int>> NetworkInterface::horizontal_allowed;
 std::map<int,std::map<int,int>> NetworkInterface::vertical_allowed;
 
 NetworkInterface::NetworkInterface(const Params *p)
-    : AstraNetworkAPI(p->id), ClockedObject(p), Consumer(this), m_id(p->id),
+    : ClockedObject(p), Consumer(this), AstraNetworkAPI(p->id), m_id(p->id),
       m_virtual_networks(p->virt_nets), m_vc_per_vnet(p->vcs_per_vnet),
       m_num_vcs(m_vc_per_vnet * m_virtual_networks),
       m_deadlock_threshold(p->garnet_deadlock_threshold),
