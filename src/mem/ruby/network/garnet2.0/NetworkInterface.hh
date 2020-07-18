@@ -89,8 +89,6 @@ class NetworkInterface : public ClockedObject, public Consumer,
     int test;
     unsigned long long last_wake_up;
     int sim_comm_size(sim_comm comm, int* size);
-    int sim_comm_get_rank(sim_comm comm, int *size);
-    int sim_comm_set_rank(sim_comm comm, int rank);
     int sim_finish();
     double sim_time_resolution();
     int sim_init(AstraMemoryAPI* MEM);

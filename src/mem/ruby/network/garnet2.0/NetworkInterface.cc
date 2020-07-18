@@ -57,7 +57,7 @@ NetworkInterface::NetworkInterface(const Params *p)
       m_virtual_networks(p->virt_nets), m_vc_per_vnet(p->vcs_per_vnet),
       m_num_vcs(m_vc_per_vnet * m_virtual_networks),
       m_deadlock_threshold(p->garnet_deadlock_threshold),
-      vc_busy_counter(m_virtual_networks, 0)
+      vc_busy_counter(m_virtual_networks, 0),AstraNetworkAPI(p->id)
 {
     m_vc_round_robin = 0;
     m_ni_out_vcs.resize(m_num_vcs);
@@ -1094,12 +1094,6 @@ NetworkInterface::checkReschedule()
 }
 
 int NetworkInterface::sim_comm_size(sim_comm comm, int* size){
-    return -1;
-}
-int NetworkInterface::sim_comm_get_rank(sim_comm comm, int *size){
-    return -1;
-}
-int NetworkInterface::sim_comm_set_rank(sim_comm comm, int rank){
     return -1;
 }
 int NetworkInterface::sim_finish(){
