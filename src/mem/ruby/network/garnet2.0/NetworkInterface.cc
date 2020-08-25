@@ -334,7 +334,12 @@ NetworkInterface::wakeup()
                         m_net_ptr->stat_row,m_net_ptr->path,m_net_ptr->run_name);
 
                 b->dequeue(clockEdge());
-                scheduleEvent(Cycles(10));
+                if (my_generator->initialized){
+                    scheduleEvent(Cycles(10));
+                }
+                else{
+                    template_message_received=0;
+                }
                 scheduleOutputLink();
                 return;
             }
