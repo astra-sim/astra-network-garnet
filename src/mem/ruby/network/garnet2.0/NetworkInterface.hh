@@ -55,8 +55,8 @@
 #include <tuple>
 
 // Astra-Sim:
-#include "AstraNetworkAPI.hh"
-#include "Sys.hh"
+#include "astra-sim/system/AstraNetworkAPI.hh"
+#include "astra-sim/system/Sys.hh"
 
 #define CLK_PERIOD 1
 class MessageBuffer;
