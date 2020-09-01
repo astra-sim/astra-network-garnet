@@ -325,14 +325,13 @@ NetworkInterface::wakeup()
                     horiz_queues=m_net_ptr->links_per_tile;
                     ver_queues=0;
                 }
-                my_generator=new Sys(this,NULL,m_id,m_net_ptr->num_passes,
+     my_generator=new Sys(this,NULL,m_id,m_net_ptr->num_passes,
                         m_net_ptr->get_num_cpus()/m_net_ptr->get_num_packages(),m_net_ptr->get_package_rows(),
                         m_net_ptr->get_num_packages()/m_net_ptr->get_package_rows(),
                         1,1,m_net_ptr->local_vnets.size(),ver_queues,horiz_queues,
                         0,0,m_net_ptr->sys_input,m_net_ptr->get_workload(),m_net_ptr->get_comm_scale(),
                         m_net_ptr->get_compute_scale(),1,m_net_ptr->total_stat_rows,
-                        m_net_ptr->stat_row,m_net_ptr->path,m_net_ptr->run_name);
-
+                        m_net_ptr->stat_row,m_net_ptr->path,m_net_ptr->run_name,true);
                 b->dequeue(clockEdge());
                 if (my_generator->initialized){
                     scheduleEvent(Cycles(10));
