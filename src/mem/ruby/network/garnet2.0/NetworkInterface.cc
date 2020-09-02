@@ -325,14 +325,15 @@ NetworkInterface::wakeup()
                     horiz_queues=m_net_ptr->links_per_tile;
                     ver_queues=0;
                 }
-     my_generator=new Sys(this,NULL,m_id,m_net_ptr->num_passes,
+     		my_generator=new AstraSim::Sys(this,NULL,m_id,m_net_ptr->num_passes,
                         m_net_ptr->get_num_cpus()/m_net_ptr->get_num_packages(),m_net_ptr->get_package_rows(),
                         m_net_ptr->get_num_packages()/m_net_ptr->get_package_rows(),
                         1,1,m_net_ptr->local_vnets.size(),ver_queues,horiz_queues,
                         0,0,m_net_ptr->sys_input,m_net_ptr->get_workload(),m_net_ptr->get_comm_scale(),
                         m_net_ptr->get_compute_scale(),1,m_net_ptr->total_stat_rows,
                         m_net_ptr->stat_row,m_net_ptr->path,m_net_ptr->run_name,true);
-                b->dequeue(clockEdge());
+                
+		b->dequeue(clockEdge());
                 if (my_generator->initialized){
                     scheduleEvent(Cycles(10));
                 }
@@ -1097,7 +1098,7 @@ NetworkInterface::checkReschedule()
     }
 }
 
-int NetworkInterface::sim_comm_size(sim_comm comm, int* size){
+int NetworkInterface::sim_comm_size(AstraSim::sim_comm comm, int* size){
     return -1;
 }
 int NetworkInterface::sim_finish(){
@@ -1110,16 +1111,16 @@ int NetworkInterface::sim_finish(){
 double NetworkInterface::sim_time_resolution(){
     return -1;
 }
-int NetworkInterface::sim_init(AstraMemoryAPI* MEM){
+int NetworkInterface::sim_init(AstraSim::AstraMemoryAPI* MEM){
     return -1;
 }
-timespec_t NetworkInterface::sim_get_time(){
-    timespec_t tt;
-    tt.time_res=time_type_e::NS;
+AstraSim::timespec_t NetworkInterface::sim_get_time(){
+    AstraSim::timespec_t tt;
+    tt.time_res=AstraSim::time_type_e::NS;
     tt.time_val=curTick()*CLK_PERIOD;
     return tt;
 }
-void NetworkInterface::sim_schedule(timespec_t delta, void (*fun_ptr)(void *fun_arg), void *fun_arg){
+void NetworkInterface::sim_schedule(AstraSim::timespec_t delta, void (*fun_ptr)(void *fun_arg), void *fun_arg){
     unsigned long long clks=delta.time_val/CLK_PERIOD;
     unsigned long long abs_clk=clks+curTick();
     bool wake_up=false;
@@ -1135,7 +1136,7 @@ void NetworkInterface::sim_schedule(timespec_t delta, void (*fun_ptr)(void *fun_
     }
     return;
 }
-int NetworkInterface::sim_send(void *buffer, int count, int type, int dst, int tag, sim_request *request,void (*msg_handler)(void *fun_arg), void* fun_arg){
+int NetworkInterface::sim_send(void *buffer, int count, int type, int dst, int tag, AstraSim::sim_request *request,void (*msg_handler)(void *fun_arg), void* fun_arg){
     if(true) {
         //int flits=ceil(((double)m_net_ptr->get_package_packet_size()*8)/flit_width);
         //std::cout<<"send called from node: "<<m_id<<" , to node: "<<dst<<" , at vnet: "<<request->vnet<<" ,packet size: "<<m_net_ptr->get_package_packet_size()<<" , flits per packet: "<<flits<<std::endl;
@@ -1177,7 +1178,7 @@ int NetworkInterface::sim_send(void *buffer, int count, int type, int dst, int t
     //template_msg=template_msg->clone();
     //scheduleEvent(Cycles(1));
     if(events_list.find(curTick()+1)==events_list.end()){
-        timespec_t delta;
+        AstraSim::timespec_t delta;
         delta.time_val=1*CLK_PERIOD;
         sim_schedule(delta,&NetworkInterface::marker,NULL);
     }
@@ -1212,7 +1213,7 @@ MsgPtr NetworkInterface::create_packet(int packet_size,int type,int dst,int tag,
     new_net_msg_ptr->vnet_to_fetch=vnet;
     return new_msg_ptr;
 }
-int NetworkInterface::sim_recv(void *buffer, int count, int type, int src, int tag, sim_request *request, void (*msg_handler)(void *fun_arg), void* fun_arg){
+int NetworkInterface::sim_recv(void *buffer, int count, int type, int src, int tag, AstraSim::sim_request *request, void (*msg_handler)(void *fun_arg), void* fun_arg){
     if(true){
         //std::cout<<"recv called at node: "<<m_id<<" to wait for a packet from node: "<<src<<" , at vnet: "<<request->vnet<<std::endl;
     }

@@ -61,10 +61,9 @@
 #define CLK_PERIOD 1
 class MessageBuffer;
 class flitBuffer;
-class Sys;
 
 class NetworkInterface : public ClockedObject, public Consumer,
-                         public AstraNetworkAPI
+                         public AstraSim::AstraNetworkAPI
 {
   public:
     typedef GarnetNetworkInterfaceParams Params;
@@ -88,14 +87,14 @@ class NetworkInterface : public ClockedObject, public Consumer,
     bool fired;
     int test;
     unsigned long long last_wake_up;
-    int sim_comm_size(sim_comm comm, int* size);
+    int sim_comm_size(AstraSim::sim_comm comm, int* size);
     int sim_finish();
     double sim_time_resolution();
-    int sim_init(AstraMemoryAPI* MEM);
-    timespec_t sim_get_time();
-    void sim_schedule(timespec_t delta, void (*fun_ptr)(void *fun_arg), void *fun_arg);
-    int sim_send(void *buffer, int count, int type, int dst, int tag, sim_request *request, void (*msg_handler)(void *fun_arg), void* fun_arg);
-    int sim_recv(void *buffer, int count, int type, int src, int tag, sim_request *request, void (*msg_handler)(void *fun_arg), void* fun_arg);
+    int sim_init(AstraSim::AstraMemoryAPI* MEM);
+    AstraSim::timespec_t sim_get_time();
+    void sim_schedule(AstraSim::timespec_t delta, void (*fun_ptr)(void *fun_arg), void *fun_arg);
+    int sim_send(void *buffer, int count, int type, int dst, int tag, AstraSim::sim_request *request, void (*msg_handler)(void *fun_arg), void* fun_arg);
+    int sim_recv(void *buffer, int count, int type, int src, int tag, AstraSim::sim_request *request, void (*msg_handler)(void *fun_arg), void* fun_arg);
 
     class Recv_Req{
         public:
@@ -358,7 +357,7 @@ class NetworkInterface : public ClockedObject, public Consumer,
     InputPort *getInportForVnet(int vnet);
     OutputPort *getOutportForVnet(int vnet);
     //mycode
-    Sys *my_generator;
+    AstraSim::Sys *my_generator;
     int template_message_received;
 };
 
