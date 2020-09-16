@@ -9,8 +9,8 @@ filename="sample-torus"
 ../build/Garnet_standalone/gem5.opt ../configs/example/garnet_synth_traffic.py \
 --num-passes=2 \
 --net=sample_a2a_net \
---sys=sample_a2a_sys \
---workload=DLRM_HybridParallel \
+--sys=sys_inputs/sample_a2a_sys \
+--workload=workload_inputs/DLRM_HybridParallel \
 --compute-scale=1.0 \
 --comm-scale=1.0 \
 --path="$mypath/" \
