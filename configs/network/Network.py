@@ -261,11 +261,11 @@ def define_options(parser):
                       help="communication delay per 64B")
     parser.add_option("--G", type="float", default=0.0033,
                       help="communication delay per 64B")
-    parser.add_option("--workload", type="string", default="test_workload",
+    parser.add_option("--workload-configuration", type="string", default="test_workload",
                       help="check configs/topologies for complete set")
-    parser.add_option("--sys", type="string", default="sample_sys",
+    parser.add_option("--system-configuration", type="string", default="sample_sys",
                       help="check configs/topologies for complete set")
-    parser.add_option("--net", type="string", default="sample_net",
+    parser.add_option("--network-configuration", type="string", default="sample_net",
                       help="check configs/topologies for complete set")
     parser.add_option("--scheduling-policy", type="choice",
                       default="LIFO",
@@ -304,7 +304,7 @@ def define_options(parser):
     
 def create_network(options, ruby):
     try:
-      netInput = open("network_inputs/"+options.net+".txt", "r") 
+      netInput = open(options.network_configuration+".txt", "r") 
       print("Success in opening net file!")
       index=0
       inps=["",""]  
@@ -337,7 +337,7 @@ def create_network(options, ruby):
 def init_network(options, network, InterfaceClass):
    
     try:
-      netInput = open("network_inputs/"+options.net+".txt", "r") 
+      netInput = open(options.network_configuration+".txt", "r") 
       print("Success in opening net file!")
       index=0
       inps=["",""]  
@@ -415,8 +415,8 @@ def init_network(options, network, InterfaceClass):
     network.algorithm=options.algorithm
     network.method=options.method
     network.communication_delay=options.communication_delay
-    network.workload=options.workload
-    network.sys_input=options.sys
+    network.workload=options.workload_configuration
+    network.sys_input=options.system_configuration
     network.scheduling_policy=options.scheduling_policy
     network.compute_scale=options.compute_scale
     network.comm_scale=options.comm_scale

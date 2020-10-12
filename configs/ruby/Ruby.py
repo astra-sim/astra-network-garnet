@@ -191,7 +191,7 @@ def create_topology(controllers, options):
         This is a wrapper for the legacy topologies.
     """
     try:
-      sysInput = open("sys_inputs/"+options.sys+".txt", "r") 
+      sysInput = open(options.system_configuration+".txt", "r") 
       print("Success in opening sys file inside ruby!")
       index=0
       inps=["",""]  

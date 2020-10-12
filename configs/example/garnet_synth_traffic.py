@@ -148,7 +148,7 @@ if options.inj_vnet > 2:
     sys.exit(1)
 
 try:
-  netInput = open("network_inputs/"+options.net+".txt", "r") 
+  netInput = open(options.network_configuration+".txt", "r") 
   print("Success in opening net file!")
   index=0
   inps=["",""]  
