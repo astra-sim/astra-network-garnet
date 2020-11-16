@@ -257,17 +257,17 @@ GarnetNetwork::init()
         }
         return;
     }
-    for(int i=0;i<vertical_rings;i++){
-        vertical_vnets1.push_back(vnets++);
-    }
-    for(int i=0;i<vertical_rings;i++){
-        vertical_vnets2.push_back(vnets++);
-    }
     for(int i=0;i<horizontal_rings;i++){
         horizontal_vnets1.push_back(vnets++);
     }
     for(int i=0;i<horizontal_rings;i++){
         horizontal_vnets2.push_back(vnets++);
+    }
+    for(int i=0;i<vertical_rings;i++){
+        vertical_vnets1.push_back(vnets++);
+    }
+    for(int i=0;i<vertical_rings;i++){
+        vertical_vnets2.push_back(vnets++);
     }
     if(topology=="Torus4D" || topology=="Torus5D" ){
         for(int i=0;i<perpendicular_rings;i++){
