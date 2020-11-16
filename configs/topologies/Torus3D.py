@@ -49,12 +49,15 @@ class Torus3D(SimpleTopology):
 
         local_vnets = range(0,options.local_rings)
         print "local vnets:" + str(local_vnets)
-        vertical_vnets_1 = range(options.local_rings,options.local_rings+options.vertical_rings)
-        vertical_vnets_2 = range(options.local_rings+options.vertical_rings,options.local_rings+2*options.vertical_rings)
-        #print "vertical vnets1:" + str(vertical_vnets_1)
-        horizontal_vnets_1 = range(options.local_rings+2*options.vertical_rings,options.local_rings+2*options.vertical_rings+options.horizontal_rings)
-        horizontal_vnets_2 = range(options.local_rings+2*options.vertical_rings+options.horizontal_rings,options.local_rings+2*options.vertical_rings+2*options.horizontal_rings)
+        
+        
+        horizontal_vnets_1 = range(options.local_rings,options.local_rings+options.horizontal_rings)
+        horizontal_vnets_2 = range(options.local_rings+options.horizontal_rings,options.local_rings+2*options.horizontal_rings)
         #print "horizontal vnets1:" + str(horizontal_vnets_1)
+        
+        vertical_vnets_1 = range(options.local_rings+2*options.horizontal_rings,options.local_rings+2*options.horizontal_rings+options.vertical_rings)
+        vertical_vnets_2 = range(options.local_rings+2*options.horizontal_rings+options.vertical_rings,options.local_rings+2*options.horizonatl_rings+2*options.vertical_rings)
+        
         all_vnets = range(0,options.local_rings+2*options.vertical_rings+2*options.horizontal_rings)
         print "all vnets:" + str(all_vnets)
 
