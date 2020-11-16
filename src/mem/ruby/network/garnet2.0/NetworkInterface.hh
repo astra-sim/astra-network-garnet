@@ -95,7 +95,7 @@ class NetworkInterface : public ClockedObject, public Consumer,
     void sim_schedule(AstraSim::timespec_t delta, void (*fun_ptr)(void *fun_arg), void *fun_arg);
     int sim_send(void *buffer, int count, int type, int dst, int tag, AstraSim::sim_request *request, void (*msg_handler)(void *fun_arg), void* fun_arg);
     int sim_recv(void *buffer, int count, int type, int src, int tag, AstraSim::sim_request *request, void (*msg_handler)(void *fun_arg), void* fun_arg);
-    AstraNetworkAPI::BackendType get_backend_type(){return AstraNetworkAPI::Garnet;};
+    AstraNetworkAPI::BackendType get_backend_type(){return AstraNetworkAPI::BackendType::Garnet;};
     
     class Recv_Req{
         public:
