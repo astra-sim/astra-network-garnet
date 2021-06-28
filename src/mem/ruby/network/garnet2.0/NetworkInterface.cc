@@ -325,14 +325,17 @@ NetworkInterface::wakeup()
                     horiz_queues=m_net_ptr->links_per_tile;
                     ver_queues=0;
                 }
+            std::vector<int> physical_dims{m_net_ptr->get_num_cpus()/m_net_ptr->get_num_packages(),
+                                            m_net_ptr->get_num_packages()/m_net_ptr->get_package_rows(),
+                                            m_net_ptr->get_package_rows()};
+            std::vector<int> queues_per_dim{(int)m_net_ptr->local_vnets.size(),
+                                               horiz_queues,
+                                               ver_queues};
      		my_generator=new AstraSim::Sys(this,NULL,m_id,m_net_ptr->num_passes,
-                        m_net_ptr->get_num_cpus()/m_net_ptr->get_num_packages(),
-			m_net_ptr->get_num_packages()/m_net_ptr->get_package_rows(),
-			m_net_ptr->get_package_rows(),
-                        1,1,m_net_ptr->local_vnets.size(),horiz_queues,ver_queues,
-                        0,0,m_net_ptr->sys_input,m_net_ptr->get_workload(),m_net_ptr->get_comm_scale(),
-                        m_net_ptr->get_compute_scale(),1,m_net_ptr->total_stat_rows,
-                        m_net_ptr->stat_row,m_net_ptr->path,m_net_ptr->run_name,true,false);
+                                           physical_dims,queues_per_dim,m_net_ptr->sys_input,
+                                           m_net_ptr->get_workload(),m_net_ptr->get_comm_scale(),
+                                           m_net_ptr->get_compute_scale(),1,m_net_ptr->total_stat_rows,
+                                           m_net_ptr->stat_row,m_net_ptr->path,m_net_ptr->run_name,true,false);
                 
 		b->dequeue(clockEdge());
                 if (my_generator->initialized){
@@ -1137,7 +1140,7 @@ void NetworkInterface::sim_schedule(AstraSim::timespec_t delta, void (*fun_ptr)(
     }
     return;
 }
-int NetworkInterface::sim_send(void *buffer, int count, int type, int dst, int tag, AstraSim::sim_request *request,void (*msg_handler)(void *fun_arg), void* fun_arg){
+int NetworkInterface::sim_send(void *buffer, uint64_t count, int type, int dst, int tag, AstraSim::sim_request *request,void (*msg_handler)(void *fun_arg), void* fun_arg){
     if(true) {
         //int flits=ceil(((double)m_net_ptr->get_package_packet_size()*8)/flit_width);
         //std::cout<<"send called from node: "<<m_id<<" , to node: "<<dst<<" , at vnet: "<<request->vnet<<" ,packet size: "<<m_net_ptr->get_package_packet_size()<<" , flits per packet: "<<flits<<std::endl;
@@ -1214,7 +1217,7 @@ MsgPtr NetworkInterface::create_packet(int packet_size,int type,int dst,int tag,
     new_net_msg_ptr->vnet_to_fetch=vnet;
     return new_msg_ptr;
 }
-int NetworkInterface::sim_recv(void *buffer, int count, int type, int src, int tag, AstraSim::sim_request *request, void (*msg_handler)(void *fun_arg), void* fun_arg){
+int NetworkInterface::sim_recv(void *buffer, uint64_t count, int type, int src, int tag, AstraSim::sim_request *request, void (*msg_handler)(void *fun_arg), void* fun_arg){
     if(true){
         //std::cout<<"recv called at node: "<<m_id<<" to wait for a packet from node: "<<src<<" , at vnet: "<<request->vnet<<std::endl;
     }
