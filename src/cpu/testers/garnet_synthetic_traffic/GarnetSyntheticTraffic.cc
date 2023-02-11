@@ -236,8 +236,9 @@ GarnetSyntheticTraffic::generatePkt()
         dest_x = (src_x + (int) ceil(radix/2) - 1) % radix;
         dest_y = src_y;
         destination = dest_y*radix + dest_x;
-    }
-    else {
+    } else if (traffic == TRAINING_) {
+        destination = (id + 1) % numDestinations;
+    } else {
         fatal("Unknown Traffic Type: %s!\n", traffic);
     }
 
@@ -334,6 +335,7 @@ GarnetSyntheticTraffic::initTrafficType()
     trafficStringToEnum["tornado"] = TORNADO_;
     trafficStringToEnum["transpose"] = TRANSPOSE_;
     trafficStringToEnum["uniform_random"] = UNIFORM_RANDOM_;
+    trafficStringToEnum["training"] = TRAINING_;
 }
 
 void

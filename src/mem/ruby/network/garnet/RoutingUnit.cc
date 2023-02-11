@@ -193,6 +193,9 @@ RoutingUnit::outportCompute(RouteInfo route, int inport,
         // any custom algorithm
         case CUSTOM_: outport =
             outportComputeCustom(route, inport, inport_dirn); break;
+        // Torus (Ring)
+        case RINGXY_: outport = 
+            outportComputeRINGXY(route, inport, inport_dirn); break;
         default: outport =
             lookupRoutingTable(route.vnet, route.net_dest); break;
     }
@@ -268,6 +271,64 @@ RoutingUnit::outportComputeCustom(RouteInfo route,
                                  PortDirection inport_dirn)
 {
     panic("%s placeholder executed", __FUNCTION__);
+}
+
+// RINGXY routing implemented using port directions
+// Only for reference purpose in a Mesh
+// By default Garnet uses the routing table
+int
+RoutingUnit::outportComputeRINGXY(RouteInfo route,
+                              int inport,
+                              PortDirection inport_dirn)
+{
+    PortDirection outport_dirn = "Unknown";
+	std::vector<int>::iterator it;
+    int my_vnet=route.vnet;
+    //std::cout<<"heyyyyyyyyyyyyyy"<<std::endl;
+    it=std::find(m_router->get_net_ptr()->local_vnets.begin(),m_router->get_net_ptr()->local_vnets.end(),my_vnet);
+    if(it!=m_router->get_net_ptr()->local_vnets.end()){
+        outport_dirn="LocalEast"+std::to_string(my_vnet);
+    }
+    it=std::find(m_router->get_net_ptr()->vertical_vnets1.begin(),m_router->get_net_ptr()->vertical_vnets1.end(),my_vnet);
+    if(it!=m_router->get_net_ptr()->vertical_vnets1.end()){
+        outport_dirn="North"+std::to_string(my_vnet);
+    }
+    it=std::find(m_router->get_net_ptr()->vertical_vnets2.begin(),m_router->get_net_ptr()->vertical_vnets2.end(),my_vnet);
+    if(it!=m_router->get_net_ptr()->vertical_vnets2.end()){
+        outport_dirn="South"+std::to_string(my_vnet);
+    }
+    it=std::find(m_router->get_net_ptr()->horizontal_vnets1.begin(),m_router->get_net_ptr()->horizontal_vnets1.end(),my_vnet);
+    if(it!=m_router->get_net_ptr()->horizontal_vnets1.end()){
+        outport_dirn="East"+std::to_string(my_vnet);
+    }
+    it=std::find(m_router->get_net_ptr()->horizontal_vnets2.begin(),m_router->get_net_ptr()->horizontal_vnets2.end(),my_vnet);
+    if(it!=m_router->get_net_ptr()->horizontal_vnets2.end()){
+        outport_dirn="West"+std::to_string(my_vnet);
+    }
+    // it=std::find(m_router->get_net_ptr()->perpendicular_vnets1.begin(),m_router->get_net_ptr()->perpendicular_vnets1.end(),my_vnet);
+    // if(it!=m_router->get_net_ptr()->perpendicular_vnets1.end()){
+    //     outport_dirn="Zpositive"+std::to_string(my_vnet);
+    // }
+    // it=std::find(m_router->get_net_ptr()->perpendicular_vnets2.begin(),m_router->get_net_ptr()->perpendicular_vnets2.end(),my_vnet);
+    // if(it!=m_router->get_net_ptr()->perpendicular_vnets2.end()){
+    //     outport_dirn="Znegative"+std::to_string(my_vnet);
+    // }
+    // it=std::find(m_router->get_net_ptr()->fourth_vnets1.begin(),m_router->get_net_ptr()->fourth_vnets1.end(),my_vnet);
+    // if(it!=m_router->get_net_ptr()->fourth_vnets1.end()){
+    //     outport_dirn="Fpositive"+std::to_string(my_vnet);
+    // }
+    // it=std::find(m_router->get_net_ptr()->fourth_vnets2.begin(),m_router->get_net_ptr()->fourth_vnets2.end(),my_vnet);
+    // if(it!=m_router->get_net_ptr()->fourth_vnets2.end()){
+    //     outport_dirn="Fnegative"+std::to_string(my_vnet);
+    // }
+    if(outport_dirn=="Unknown"){
+        panic("Unknown Vnet!");
+    }
+    if(m_router->get_id()==0 && my_vnet==5){
+        //std::cout<<"Routing unit) packet is going to: "<<outport_dirn<<" from router id: "<<m_router->get_id()<<" dest: "<<route.dest_router<<" in time: "<<curTick()<<"  from vnet: "<<route.vnet<<std::endl;
+    }
+	
+    return m_outports_dirn2idx[outport_dirn];
 }
 
 } // namespace garnet

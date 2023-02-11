@@ -55,6 +55,7 @@ namespace garnet
 class NetworkInterface;
 class Router;
 class NetworkLink;
+class NetworkBridge;
 class CreditLink;
 
 class GarnetNetwork : public Network
@@ -105,6 +106,7 @@ class GarnetNetwork : public Network
                           PortDirection src_outport_dirn,
                           PortDirection dest_inport_dirn);
 
+    bool functionalRead(Packet *pkt, WriteMask &mask);
     //! Function for performing a functional write. The return value
     //! indicates the number of messages that were written.
     uint32_t functionalWrite(Packet *pkt);
@@ -155,6 +157,22 @@ class GarnetNetwork : public Network
     void update_traffic_distribution(RouteInfo route);
     int getNextPacketID() { return m_next_packet_id++; }
 
+    // Astra-SIM
+    // Config
+    std::string get_topology() {return topology;}
+    int get_num_packages() {return num_packages;}
+
+    // Torus
+    int get_local_rings() {return local_rings;}
+    int get_vertical_rings() {return vertical_rings;}
+    int get_horizontal_rings() {return horizontal_rings;}
+
+    std::vector<int> local_vnets;
+    std::vector<int> vertical_vnets1;
+    std::vector<int> vertical_vnets2;
+    std::vector<int> horizontal_vnets1;
+    std::vector<int> horizontal_vnets2;
+
   protected:
     // Configuration
     int m_num_rows;
@@ -165,6 +183,16 @@ class GarnetNetwork : public Network
     uint32_t m_buffers_per_data_vc;
     int m_routing_algorithm;
     bool m_enable_fault_model;
+
+    // Astra-SIM
+    // Network
+    // Config
+    std::string topology;
+    int num_packages;
+    // Torus
+    int local_rings;
+    int vertical_rings;
+    int horizontal_rings;
 
     // Statistical variables
     statistics::Vector m_packets_received;
@@ -208,6 +236,7 @@ class GarnetNetwork : public Network
     std::vector<VNET_type > m_vnet_type;
     std::vector<Router *> m_routers;   // All Routers in Network
     std::vector<NetworkLink *> m_networklinks; // All flit links in the network
+    std::vector<NetworkBridge *> m_networkbridges; // All network bridges
     std::vector<CreditLink *> m_creditlinks; // All credit links in the network
     std::vector<NetworkInterface *> m_nis;   // All NI's in Network
     int m_next_packet_id; // static vairable for packet id allocation
